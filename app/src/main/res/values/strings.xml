@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="explanation">This application requires permission to use your
+        microphone in order to function properly. Press accept to give SCALEpro permission to
+        listen to your microphone. this application utilizes TarsosDSP an API developed at the
+        University Ghent, and University College Ghent \'github.com/JorenSix/TarsosDSP\'.</string>
+    <string name="button_accept">Accept</string>
+    <string name="button_exit">Exit</string>
+    <string name="button_back">Back</string>
+    <string name="lbl_main">MAIN MENU</string>
+    <string name="button_tuner">Tuner</string>
+    <string name="lbl_tuner">TUNER</string>
+    <string name="button_trainer">Scale Trainer</string>
+    <string name="lbl_scale_trainer">SCALE TRAINER</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

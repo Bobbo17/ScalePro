@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TableRow
+        android:id="@+id/tableRow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Switch
+            android:id="@+id/switch2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.5"
+            android:text="Metronome" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="44"
+            android:textAlignment="center" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4" />
+
+    </TableRow>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableRow">
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/tableRow">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipIonian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Ionian"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#4CAF50" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDorian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dorian"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#91D8BC" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPhrygian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Phrygian"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#91D8BC" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipLydian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lydian"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#91D8BC" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMixolydian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mixolydian"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#91D8BC" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAeolian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Aeolian"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#91D8BC" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipLocrian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Locrian"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#91D8BC" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chipGroup">
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="E"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="B"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFSharp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="F♯/G♭"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCSharp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="C♯/D♭"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="C"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#DC650A" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="G"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="D"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="A"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAFlat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="A♭/G♯"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipEFlat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="E♭/D♯"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipBFlat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="B♭/A♯"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="F"
+                android:textAlignment="center"
+                app:chipBackgroundColor="#FAE5A6" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/linearLayout3"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/tableRow">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:orientation="horizontal">-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/button12"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="2dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:backgroundTint="#61BCB3"-->
+    <!--                android:text="Ionian" />-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/button13"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="2dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:backgroundTint="#61BCB3"-->
+    <!--                android:text="Dorian" />-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/button14"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="2dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:autoSizeMinTextSize="8sp"-->
+    <!--                android:autoSizeTextType="uniform"-->
+    <!--                android:backgroundTint="#61BCB3"-->
+    <!--                android:text="Locrian"-->
+    <!--                android:textSize="12sp" />-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/button15"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="2dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:backgroundTint="#61BCB3"-->
+    <!--                android:text="Lydian" />-->
+    <!--        </LinearLayout>-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:orientation="horizontal">-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/button16"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="3dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:backgroundTint="#61BCB3"-->
+    <!--                android:text="Mixolydian" />-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/button18"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="3dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:backgroundTint="#61BCB3"-->
+    <!--                android:text="Phrygian" />-->
+
+    <!--            <Button-->
+    <!--                android:id="@+id/button17"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_margin="3dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:backgroundTint="#61BCB3"-->
+    <!--                android:text="Aeolian" />-->
+    <!--        </LinearLayout>-->
+    <!--    </LinearLayout>-->
+</androidx.constraintlayout.widget.ConstraintLayout>
