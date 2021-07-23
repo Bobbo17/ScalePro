@@ -3,6 +3,7 @@ package com.durham.myapplication
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
@@ -30,8 +31,15 @@ class MainActivity : AppCompatActivity() {
 
     var position:Int = 0
     var correct:Int = 0
+    var total:Int = 0
     var startingNote:Int = 0
     val pattern:ArrayList<MusicNote> = ArrayList<MusicNote>()
+
+    val samples:ArrayList<Float> = ArrayList<Float>()
+
+
+    var checkNote:Boolean = false
+    var checkCorrect:Boolean = false
 
     private lateinit var jsonSerializer: JSONSerializer
     private lateinit var currentScale:CurrentScale
@@ -163,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         var pdh = PitchDetectionHandler { result, e ->
             val pitchInHz = result.pitch
             runOnUiThread {
-                if (pitchInHz != -1.0f){
+                if (pitchInHz != -1.0f && result.probability >= 0.91){
                     tvHz.text = "" + pitchInHz
                     if (ivHand.imageAlpha <= 230){
                         ivHand.imageAlpha += 25
@@ -202,207 +210,207 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setScale() {
+        var instrumentStart = -1 //-1 for guitar 0 for violin
         when (currentScale.note) {
-            "E" ->
-                startingNote = 52
-            "B" ->
-                startingNote = 47
+
+
             "F♯/G♭" ->
                 startingNote = 42
-            "C♯/D♭" ->
-                startingNote = 49
-            "C" ->
-                startingNote = 48
             "G" ->
                 startingNote = 43
-            "D" ->
-                startingNote = 50
-            "A" ->
-                startingNote = 45
             "A♭/G♯" ->
                 startingNote = 44
-            "E♭/D♯" ->
-                startingNote = 51
+            "A" ->
+                startingNote = 45
             "B♭/A♯" ->
                 startingNote = 46
+            "B" ->
+                startingNote = 47
+            "C" ->
+                startingNote = 48
+            "C♯/D♭" ->
+                startingNote = 49
+            "D" ->
+                startingNote = 50
+            "E♭/D♯" ->
+                startingNote = 51
+            "E" ->{
+                if (instrumentStart == -1) startingNote = 40
+
+                else startingNote = 52
+            }
+
+            "F" ->
+                if (instrumentStart == -1) startingNote = 41
+
+                else startingNote = 53
         }
+
         when (currentScale.type) {
             "Ionian" ->
             {
                 pattern.clear()
-                for (i in 0..1){
-                    startingNote = startingNote + 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote+2])
-                    pattern.add(notes[startingNote+4])
-                    pattern.add(notes[startingNote+5])
-                    pattern.add(notes[startingNote+7])
-                    pattern.add(notes[startingNote+9])
-                    pattern.add(notes[startingNote+11])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN:Int = startingNote + 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN+2])
+                    pattern.add(notes[stN+4])
+                    pattern.add(notes[stN+5])
+                    pattern.add(notes[stN+7])
+                    pattern.add(notes[stN+9])
+                    pattern.add(notes[stN+11])
                 }
-                startingNote = startingNote + 12
-                for (i in 0..1){
-                    startingNote = startingNote - 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote-1])
-                    pattern.add(notes[startingNote-3])
-                    pattern.add(notes[startingNote-5])
-                    pattern.add(notes[startingNote-7])
-                    pattern.add(notes[startingNote-8])
-                    pattern.add(notes[startingNote-10])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote - 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN-1])
+                    pattern.add(notes[stN-3])
+                    pattern.add(notes[stN-5])
+                    pattern.add(notes[stN-7])
+                    pattern.add(notes[stN-8])
+                    pattern.add(notes[stN-10])
                 }
-                startingNote = startingNote - 12
 
             }
             "Dorian" -> {
                 pattern.clear()
-                for(i in 0..1){
-                    startingNote = startingNote + 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote + 2])
-                    pattern.add(notes[startingNote + 3])
-                    pattern.add(notes[startingNote + 5])
-                    pattern.add(notes[startingNote + 7])
-                    pattern.add(notes[startingNote + 9])
-                    pattern.add(notes[startingNote + 10])
+                for(i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote + 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN + 2])
+                    pattern.add(notes[stN + 3])
+                    pattern.add(notes[stN + 5])
+                    pattern.add(notes[stN + 7])
+                    pattern.add(notes[stN + 9])
+                    pattern.add(notes[stN + 10])
                 }
-                startingNote += 12
-                for(i in 0..1){
-                    startingNote = startingNote - 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote-2])
-                    pattern.add(notes[startingNote-3])
-                    pattern.add(notes[startingNote-5])
-                    pattern.add(notes[startingNote-7])
-                    pattern.add(notes[startingNote-9])
-                    pattern.add(notes[startingNote-10])
+
+                for(i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote - 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN-2])
+                    pattern.add(notes[stN-3])
+                    pattern.add(notes[stN-5])
+                    pattern.add(notes[stN-7])
+                    pattern.add(notes[stN-9])
+                    pattern.add(notes[stN-10])
                 }
-                startingNote -= 12
+
             }
             "Phrygian" -> {
                 pattern.clear()
-                for (i in 0..1){
-                    startingNote = startingNote + 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote+1])
-                    pattern.add(notes[startingNote+2])
-                    pattern.add(notes[startingNote+4])
-                    pattern.add(notes[startingNote+6])
-                    pattern.add(notes[startingNote+7])
-                    pattern.add(notes[startingNote+9])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote + 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN+1])
+                    pattern.add(notes[stN+3])
+                    pattern.add(notes[stN+5])
+                    pattern.add(notes[stN+7])
+                    pattern.add(notes[stN+8])
+                    pattern.add(notes[stN+10])
                 }
-                startingNote += 12
-                for (i in 0..1){
-                    startingNote = startingNote - 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote-3])
-                    pattern.add(notes[startingNote-5])
-                    pattern.add(notes[startingNote-6])
-                    pattern.add(notes[startingNote-8])
-                    pattern.add(notes[startingNote-10])
-                    pattern.add(notes[startingNote-11])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote - 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN-2])
+                    pattern.add(notes[stN-4])
+                    pattern.add(notes[stN-5])
+                    pattern.add(notes[stN-7])
+                    pattern.add(notes[stN-9])
+                    pattern.add(notes[stN-11])
                 }
-                startingNote -= 12
             }
             "Lydian" -> {
                 pattern.clear()
-                for (i in 0..1){
-                    startingNote = startingNote + 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote+2])
-                    pattern.add(notes[startingNote+3])
-                    pattern.add(notes[startingNote+5])
-                    pattern.add(notes[startingNote+6])
-                    pattern.add(notes[startingNote+8])
-                    pattern.add(notes[startingNote+10])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote + 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN+2])
+                    pattern.add(notes[stN+4])
+                    pattern.add(notes[stN+6])
+                    pattern.add(notes[stN+7])
+                    pattern.add(notes[stN+9])
+                    pattern.add(notes[stN+11])
                 }
-                startingNote += 12
-                for (i in 0..1){
-                    startingNote = startingNote - 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote-2])
-                    pattern.add(notes[startingNote-4])
-                    pattern.add(notes[startingNote-6])
-                    pattern.add(notes[startingNote-7])
-                    pattern.add(notes[startingNote-9])
-                    pattern.add(notes[startingNote-10])
+                for (i in instrumentStart..instrumentStart + 1) {
+                    val stN = startingNote - 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN - 1])
+                    pattern.add(notes[stN - 3])
+                    pattern.add(notes[stN - 5])
+                    pattern.add(notes[stN - 6])
+                    pattern.add(notes[stN - 8])
+                    pattern.add(notes[stN - 10])
                 }
-                startingNote -= 12
             }
             "Mixolydian" -> {
                 pattern.clear()
-                for (i in 0..1){
-                    startingNote = startingNote + 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote+2])
-                    pattern.add(notes[startingNote+4])
-                    pattern.add(notes[startingNote+5])
-                    pattern.add(notes[startingNote+7])
-                    pattern.add(notes[startingNote+9])
-                    pattern.add(notes[startingNote+10])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote + 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN+2])
+                    pattern.add(notes[stN+4])
+                    pattern.add(notes[stN+5])
+                    pattern.add(notes[stN+7])
+                    pattern.add(notes[stN+9])
+                    pattern.add(notes[stN+10])
                 }
-                startingNote += 12
-                for (i in 0..1){
-                    startingNote = startingNote - 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote-2])
-                    pattern.add(notes[startingNote-3])
-                    pattern.add(notes[startingNote-5])
-                    pattern.add(notes[startingNote-7])
-                    pattern.add(notes[startingNote-8])
-                    pattern.add(notes[startingNote-10])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote - 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN-2])
+                    pattern.add(notes[stN-3])
+                    pattern.add(notes[stN-5])
+                    pattern.add(notes[stN-7])
+                    pattern.add(notes[stN-8])
+                    pattern.add(notes[stN-10])
                 }
-                startingNote -= 12
             }
             "Aeolian" -> {
                 pattern.clear()
-                for (i in 0..1){
-                    startingNote = startingNote + 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote+2])
-                    pattern.add(notes[startingNote+3])
-                    pattern.add(notes[startingNote+5])
-                    pattern.add(notes[startingNote+7])
-                    pattern.add(notes[startingNote+8])
-                    pattern.add(notes[startingNote+10])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote + 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN+2])
+                    pattern.add(notes[stN+3])
+                    pattern.add(notes[stN+5])
+                    pattern.add(notes[stN+7])
+                    pattern.add(notes[stN+8])
+                    pattern.add(notes[stN+10])
                 }
-                startingNote += 12
-                for (i in 0..1){
-                    startingNote = startingNote - 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote-2])
-                    pattern.add(notes[startingNote-4])
-                    pattern.add(notes[startingNote-5])
-                    pattern.add(notes[startingNote-7])
-                    pattern.add(notes[startingNote-9])
-                    pattern.add(notes[startingNote-10])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote - 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN-2])
+                    pattern.add(notes[stN-4])
+                    pattern.add(notes[stN-5])
+                    pattern.add(notes[stN-7])
+                    pattern.add(notes[stN-9])
+                    pattern.add(notes[stN-10])
                 }
-                startingNote -= 12
             }
             "Locrian" -> {
                 pattern.clear()
-                for (i in 0..1){
-                    startingNote = startingNote + 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote+1])
-                    pattern.add(notes[startingNote+3])
-                    pattern.add(notes[startingNote+5])
-                    pattern.add(notes[startingNote+6])
-                    pattern.add(notes[startingNote+8])
-                    pattern.add(notes[startingNote+10])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote + 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN+1])
+                    pattern.add(notes[stN+3])
+                    pattern.add(notes[stN+5])
+                    pattern.add(notes[stN+6])
+                    pattern.add(notes[stN+8])
+                    pattern.add(notes[stN+10])
                 }
-                startingNote += 12
-                for (i in 0..1){
-                    startingNote = startingNote - 12 * i
-                    pattern.add(notes[startingNote])
-                    pattern.add(notes[startingNote-2])
-                    pattern.add(notes[startingNote-4])
-                    pattern.add(notes[startingNote-6])
-                    pattern.add(notes[startingNote-7])
-                    pattern.add(notes[startingNote-9])
-                    pattern.add(notes[startingNote-11])
+                for (i in instrumentStart..instrumentStart + 1){
+                    val stN = startingNote - 12 * i
+                    pattern.add(notes[stN])
+                    pattern.add(notes[stN-2])
+                    pattern.add(notes[stN-4])
+                    pattern.add(notes[stN-6])
+                    pattern.add(notes[stN-7])
+                    pattern.add(notes[stN-9])
+                    pattern.add(notes[stN-11])
                 }
-                startingNote -= 12
             }
 
         }
@@ -410,19 +418,23 @@ class MainActivity : AppCompatActivity() {
     fun activatePitchChecker(sta:FragmentScaleActive) {
         position = 0
         correct = 0
+        total = 0
+        samples.clear()
         setScale()
 
 
         var dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0)
 
         var pdh = PitchDetectionHandler { result, e ->
-            var tvBar: TextView
+
             if (sta.view?.findViewById<TextView>(R.id.tvScaleTrainerBar) != null) {
-                tvBar = sta.requireView().findViewById<TextView>(R.id.tvScaleTrainerBar)
+                val tvBar = sta.requireView().findViewById<TextView>(R.id.tvScaleTrainerBar)
                 val pitchInHz = result.pitch
+
                 val acceptedTuning: Float = pattern[position].pitch * .008f
                 val variance: Float = pattern[position].pitch * .04f
                 runOnUiThread {
+                    sta.changeScore(total, correct)
                     if (pattern.count() > 0) sta.view?.findViewById<TextView>(R.id.tvNextNote)?.text =
                         pattern[position].name
                     if (pitchInHz != -1.0f) {
@@ -432,7 +444,8 @@ class MainActivity : AppCompatActivity() {
                             if (pitchInHz >= pattern[position - 1].pitch - previousVariance &&
                                 pitchInHz <= pattern[position - 1].pitch + previousVariance) {
                                 tvBar.translationY =
-                                    98 + (pitchInHz - pattern[position-1].pitch)/previousVariance*98
+                                     (pitchInHz - pattern[position-1].pitch)/previousVariance*-98
+                                tvBar.background = getDrawable(R.drawable.gradient_tuner_yellow)
                                 if (tvBar.alpha <= .9f
                                 ) {
                                     tvBar.alpha += .1f
@@ -443,7 +456,8 @@ class MainActivity : AppCompatActivity() {
                             } else if (pitchInHz >= pattern[position].pitch - variance &&
                                        pitchInHz <= pattern[position].pitch + variance) {
                                 tvBar.translationY =
-                                    98 + (pitchInHz - pattern[position].pitch)/variance*98
+                                     (pitchInHz - pattern[position].pitch)/variance*-98
+                                tvBar.background = getDrawable(R.drawable.gradient_tuner_blue)
                                 if (tvBar.alpha <= .9f) {
                                     tvBar.alpha += .1f
                                 } else if (tvBar.alpha < 1f) {
@@ -451,20 +465,49 @@ class MainActivity : AppCompatActivity() {
                                 }
                                 if (pitchInHz >= pattern[position].pitch - acceptedTuning &&
                                     pitchInHz <= pattern[position].pitch + acceptedTuning){
-                                    position++
-                                    correct++
+                                    tvBar.background = getDrawable(R.drawable.gradient_tuner_green)
+
                                     if (position == pattern.count()) position = 0
                                 }
+                            }else if (pitchInHz < pattern[position].pitch - variance) {
+                                if (tvBar.alpha <= .9f) {
+                                    tvBar.alpha += .1f
+                                } else if (tvBar.alpha < 1f) {
+                                    tvBar.alpha = 1.0f
+                                }
+                                tvBar.background = getDrawable(R.drawable.gradient_tuner)
+                                tvBar.translationY = 98f
+                            }else if (pitchInHz > pattern[position].pitch + variance) {
+                                if (tvBar.alpha <= .9f) {
+                                    tvBar.alpha += .1f
+                                } else if (tvBar.alpha < 1f) {
+                                    tvBar.alpha = 1.0f
+                                }
+                                tvBar.background = getDrawable(R.drawable.gradient_tuner)
+                                tvBar.translationY = -98f
                             }
-                        } else {
+                        } else { //if this is the first pitch in the pattern then check the last pitch
                             val previousVariance = pattern.last().pitch * .04f
                             if (pitchInHz >= pattern.last().pitch - previousVariance &&
                                 pitchInHz <= pattern.last().pitch + previousVariance) {
+                                tvBar.translationY =
+                                    (pitchInHz - pattern.last().pitch)/previousVariance*-98
+                                if (checkNote && checkCorrect) {
+
+                                }else {
+                                    tvBar.background = getDrawable(R.drawable.gradient_tuner_yellow)
+                                }
 
                             } else if (pitchInHz >= pattern[position].pitch - variance && pitchInHz
                                 <= pattern[position].pitch + variance) {
                                 tvBar.translationY =
-                                    98 + (pitchInHz - pattern[position].pitch)/variance*98
+                                    (pitchInHz - pattern[position].pitch)/variance*-98
+                                if (checkNote && checkCorrect) {
+
+                                }else {
+                                    tvBar.background = getDrawable(R.drawable.gradient_tuner_blue)
+                                }
+
                                 if (tvBar.alpha <= .9f) {
                                     tvBar.alpha += .1f
                                 } else if (tvBar.alpha < 1f) {
@@ -472,13 +515,85 @@ class MainActivity : AppCompatActivity() {
                                 }
                                 if (pitchInHz >= pattern[position].pitch - acceptedTuning &&
                                     pitchInHz <= pattern[position].pitch + acceptedTuning){
-                                    position++
-                                    correct++
-                                    if (position == pattern.count()) position = 0
+                                    tvBar.background = getDrawable(R.drawable.gradient_tuner_green)
+
+                                    checkCorrect = true
+
                                 }
 
+                            } else if (pitchInHz < pattern[position].pitch - variance) {
+                                if (tvBar.alpha <= .9f) {
+                                    tvBar.alpha += .1f
+                                } else if (tvBar.alpha < 1f) {
+                                    tvBar.alpha = 1.0f
+                                }
+                                tvBar.background = getDrawable(R.drawable.gradient_tuner)
+                                tvBar.translationY = 98f
+                            }else if (pitchInHz > pattern[position].pitch + variance) {
+                                if (tvBar.alpha <= .9f) {
+                                    tvBar.alpha += .1f
+                                } else if (tvBar.alpha < 1f) {
+                                    tvBar.alpha = 1.0f
+                                }
+                                tvBar.background = getDrawable(R.drawable.gradient_tuner)
+                                tvBar.translationY = -98f
                             }
 
+                        }
+                        if (checkNote != true){
+                            checkNote = true
+
+                            object : CountDownTimer(300, 50) {
+
+                                override fun onTick(millisUntilFinished: Long) {
+
+                                }
+
+                                override fun onFinish() {
+
+                                    checkNote = false
+                                    checkCorrect = false
+
+                                    if (samples.count() > 3){
+                                        if (position != 0){
+                                            if (samples.average() >= pattern[position - 1].pitch
+                                                - pattern[position - 1].pitch * .04
+
+                                                && samples.average() <= pattern[position - 1].pitch
+                                                + pattern[position - 1].pitch * .04){
+
+                                            }else{
+                                                total++
+                                            }
+                                        } else {
+                                            if (samples.average() >= pattern.last().pitch
+                                                - pattern.last().pitch * .04
+
+                                                && samples.average() <= pattern.last().pitch
+                                                + pattern.last().pitch * .04){
+
+                                            }else{
+                                                total++
+                                            }
+                                        }
+                                        if (samples.average() >= pattern[position].pitch
+                                            - acceptedTuning
+
+                                            && samples.average() <= pattern[position].pitch
+                                            + acceptedTuning) {
+                                            position++
+                                            correct++
+                                            if (position == pattern.count()) position = 0
+                                        }
+
+                                    }
+                                    samples.clear()
+                                }
+                            }.start()
+                        }else {
+                            if (samples.count() <= 12){
+                                samples.add(pitchInHz)
+                            }
                         }
 
 
@@ -490,6 +605,9 @@ class MainActivity : AppCompatActivity() {
                             tvBar.alpha = 0f
                         }
                     }
+                }
+                runOnUiThread{
+
                 }
             } else {
                 Thread("Audio Dispatcher").interrupt()

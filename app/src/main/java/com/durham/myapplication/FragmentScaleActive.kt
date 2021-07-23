@@ -35,5 +35,8 @@ class FragmentScaleActive(scale:CurrentScale) : Fragment() {
 
     }
 
+    fun changeScore(total:Int, correct:Int){
+        view?.findViewById<TextView>(R.id.tvScore)?.text = "$correct out of $total"
+    }
 
 }
