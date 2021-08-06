@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     val pattern:ArrayList<MusicNote> = ArrayList<MusicNote>()
 
     val samples:ArrayList<Float> = ArrayList<Float>()
+    val playedList:ArrayList<Float> = ArrayList<Float>()
 
 
     var checkNote:Boolean = false
@@ -415,6 +416,7 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+    //
     fun activatePitchChecker(sta:FragmentScaleActive) {
         position = 0
         correct = 0
@@ -439,8 +441,10 @@ class MainActivity : AppCompatActivity() {
                         pattern[position].name
                     if (pitchInHz != -1.0f) {
 
+                        //if not first position in pattern then check to see if previous position
+                        // is playing
                         if (position > 0) {
-                            val previousVariance = pattern[position - 1].pitch * .04f
+                            val previousVariance = pattern[position - 1].pitch * .04f //formula for acceptable variance
                             if (pitchInHz >= pattern[position - 1].pitch - previousVariance &&
                                 pitchInHz <= pattern[position - 1].pitch + previousVariance) {
                                 tvBar.translationY =
@@ -554,7 +558,7 @@ class MainActivity : AppCompatActivity() {
                                     checkNote = false
                                     checkCorrect = false
 
-                                    if (samples.count() > 3){
+                                    if (samples.count() > 10){
                                         if (position != 0){
                                             if (samples.average() >= pattern[position - 1].pitch
                                                 - pattern[position - 1].pitch * .04
@@ -562,7 +566,12 @@ class MainActivity : AppCompatActivity() {
                                                 && samples.average() <= pattern[position - 1].pitch
                                                 + pattern[position - 1].pitch * .04){
 
-                                            }else{
+                                            }else if (samples.average().toFloat() >= playedList.last() - playedList.last() * .04
+                                                && samples.average().toFloat() <= playedList.last() + playedList.last() * .04 ){
+
+                                            }
+                                            else{
+                                                playedList.add(samples.average().toFloat())
                                                 total++
                                             }
                                         } else {
@@ -572,7 +581,12 @@ class MainActivity : AppCompatActivity() {
                                                 && samples.average() <= pattern.last().pitch
                                                 + pattern.last().pitch * .04){
 
-                                            }else{
+                                            }else if (samples.average().toFloat() >= playedList.last() - playedList.last() * .04
+                                                && samples.average().toFloat() <= playedList.last() + playedList.last() * .04 ){
+
+                                            }
+                                            else {
+                                                playedList.add(samples.average().toFloat())
                                                 total++
                                             }
                                         }
